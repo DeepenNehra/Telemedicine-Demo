@@ -4,7 +4,7 @@ A modern, full-featured telemedicine platform connecting patients with healthcar
 
 ## 🌐 Live Demo
 
-**🚀 [View Live Application](https://fastidious-daifuku-64bc60.netlify.app)**
+https://fastidious-daifuku-64bc60.netlify.app/
 
 - **Frontend**: Deployed on Netlify
 - **Backend**: Deployed on Render
