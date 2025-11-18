@@ -89,7 +89,7 @@ export default function VideoCall({ roomId, role }: VideoCallProps) {
         const peerHost = process.env.NEXT_PUBLIC_PEER_HOST || '0.peerjs.com';
         const peerPort = parseInt(process.env.NEXT_PUBLIC_PEER_PORT || '443');
         const peerPath = process.env.NEXT_PUBLIC_PEER_PATH || '/';
-        const peerSecure = process.env.NEXT_PUBLIC_PEER_SECURE !== 'false';
+        const peerSecure = process.env.NEXT_PUBLIC_PEER_SECURE === 'true' || process.env.NEXT_PUBLIC_PEER_SECURE === undefined;
         
         console.log('🎥 Connecting to PeerJS:', { host: peerHost, port: peerPort, path: peerPath, secure: peerSecure });
         
