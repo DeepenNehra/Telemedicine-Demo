@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { saveUser } from '@/lib/auth';
 
-export default function AuthPage() {
+function AuthForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isSignUp, setIsSignUp] = useState(true);
@@ -396,5 +396,17 @@ export default function AuthPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+        <div className="spinner w-12 h-12"></div>
+      </div>
+    }>
+      <AuthForm />
+    </Suspense>
   );
 }
