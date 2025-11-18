@@ -110,6 +110,15 @@ app.prepare().then(() => {
       });
     });
 
+    // Handle chat messages
+    socket.on('chat-message', (data) => {
+      const { roomId, sender, text } = data;
+      console.log(`💬 Chat message in room ${roomId} from ${sender}: ${text}`);
+      
+      // Broadcast to others in the room
+      socket.to(roomId).emit('chat-message', { sender, text });
+    });
+
     socket.on('disconnect', () => {
       console.log(`❌ User disconnected: ${socket.id}`);
       
