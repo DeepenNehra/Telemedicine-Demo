@@ -34,12 +34,11 @@ export default function VideoCall({ roomId, role }: VideoCallProps) {
     console.log('🆔 My Peer ID:', peerId);
     setConnectionStatus('Connecting...');
     
-    // Auto-detect server URL for multi-device support
-    const serverUrl = typeof window !== 'undefined' && window.location.hostname !== 'localhost'
-      ? `http://${window.location.hostname}:3003`
-      : 'http://localhost:3003';
+    // Use environment variable or fallback to localhost
+    const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3003';
     
-    socketRef.current = io(serverUrl);
+    console.log('🔌 Connecting to Socket.IO:', socketUrl);
+    socketRef.current = io(socketUrl);
     
     socketRef.current.on('connect', () => {
       console.log('📡 Socket connected');
@@ -62,10 +61,21 @@ export default function VideoCall({ roomId, role }: VideoCallProps) {
         console.log('📹 Got local stream');
         setConnectionStatus('Establishing connection...');
         
+        // Use environment variables or fallback
+        // For production: Use PeerJS cloud or your own server
+        // For local dev: Use localhost (requires running peerjs-server.js separately)
+        const peerHost = process.env.NEXT_PUBLIC_PEER_HOST || '0.peerjs.com';
+        const peerPort = parseInt(process.env.NEXT_PUBLIC_PEER_PORT || '443');
+        const peerPath = process.env.NEXT_PUBLIC_PEER_PATH || '/';
+        const peerSecure = process.env.NEXT_PUBLIC_PEER_SECURE !== 'false'; // Default to true
+        
+        console.log('🎥 Connecting to PeerJS:', { host: peerHost, port: peerPort, path: peerPath, secure: peerSecure });
+        
         const peer = new Peer(peerId, {
-          host: 'localhost',
-          port: 9000,
-          path: '/myapp',
+          host: peerHost,
+          port: peerPort,
+          path: peerPath,
+          secure: peerSecure,
           debug: 2,
           config: {
             iceServers: [

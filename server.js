@@ -3,7 +3,7 @@ const { Server } = require('socket.io');
 const next = require('next');
 
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = 'localhost';
+const hostname = process.env.HOSTNAME || 'localhost';
 const port = process.env.PORT || 3003;
 
 const app = next({ dev, hostname, port });
@@ -153,6 +153,7 @@ app.prepare().then(() => {
     })
     .listen(port, () => {
       console.log(`\n🚀 Ready on http://${hostname}:${port}`);
-      console.log(`📡 Signaling server running\n`);
+      console.log(`📡 Socket.IO signaling server running`);
+      console.log(`⚠️  Note: For PeerJS, use external server (see DEPLOYMENT_GUIDE.md)\n`);
     });
 });
